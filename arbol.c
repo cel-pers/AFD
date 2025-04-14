@@ -24,7 +24,7 @@ tData crearNodoLista(tData contenido){
 	return nuevo;
 }	
 	
-tData crearNodoSet(tData data, tData next)//puedo hacer lo que comente en creaNodolista
+tData crearNodoSet(tData data, tData next)//capaz es mejor sacar el parámetro next
 {
 	tData nuevo=(tData)malloc(sizeof(TArbol));
 	nuevo->nodeType = SET;
@@ -95,7 +95,7 @@ B={dos,cuatro,cinco}
 U={uno,dos,tres, cuatro, cinco}
 	*/
 
-	
+	//no funciona(funcion de cele)
 	tData copiaConjunto(tData org){
 		
 		tData conjRte=NULL;
@@ -111,6 +111,7 @@ U={uno,dos,tres, cuatro, cinco}
 		}
 		tData conjRte;
 	}	
+//no funciona(funcion de cele)
 tData unionSet(tData A, tData B){
 	/*Suponiendo funcio pertenece(tData,tData)=0 si no pertenece*/
 	tData auxA=A;
@@ -122,7 +123,7 @@ tData unionSet(tData A, tData B){
 	return U;
 }
 	
-	
+//FUNCIONES DE LISTA (PROFE )	
 	
 //AGREGA UN NODO AL FINAL DE LA LISTA
 tData push (tdata lista, tData nuevoNodo){
