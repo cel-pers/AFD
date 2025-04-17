@@ -195,4 +195,16 @@ int pertenece(str cab,str cad){
 		return 0;
 	else return-1;
 }
-										
+//sofimicol
+int comparacad(str a,str b){
+																while((a!=NULL && b!=NULL)){
+																	if(a->dato!=b->dato)
+																		return -1;
+																	a=a->sig;
+																	b=b->sig;
+																}
+																if(a==NULL && b==NULL)
+																	   return 0;
+																else 
+																	return -1;
+															}									
