@@ -23,8 +23,9 @@ typedef TArbol* tData;
 tData crearNodoSet();
 tData cargaConjunto();
 void mostrarConjunto(tData);
-
+int inArbol(tData lista,str cad);
 tData unionSet(tData, tData);
+void eliminaConjunto(tData*);
 void liberarArbol(tData);
 
 
@@ -35,7 +36,8 @@ void liberarArbol(tData);
 4- crear un conjunto vacio
 5- cargar un conjunto (considerar cargar por consola y ((todas))
 14- carga por cadena hardcodeada, considerar el
-conjunto vacio) (todas)6- mostrar un conjunto
+conjunto vacio) (todas)
+6- mostrar un conjunto
 Implementar las operaciones de
 7- union 
 8- interseccion 
@@ -43,6 +45,7 @@ Implementar las operaciones de
 10- cardinalidad, 
 11- pertenece
 12- inclusion 
-13- eliminar conjunto.
+13- eliminar conjunto.
+
 */
 #endif
