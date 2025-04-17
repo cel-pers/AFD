@@ -233,6 +233,45 @@ void eliminaConjunto(tData*lista){
 	}
 	*lista=NULL;
 }
+//sofimicol
+	void agrega(tData*cab,tData cad){
+													int p,b;
+													tData aux; b=0;
+													tData copia = crearNodoSet(crearNodoStr(cad->data->Str), NULL);
+													if(*cab==NULL){
+														*cab=copia;
+													}
+													else {
+														aux=*cab;
+														while(aux->next!=NULL && b==0){
+															/*while(aux->sig!=NULL && b==0){*/
+															p=inArbol(aux,cad->data->Str);
+															if(p==-1)
+																b=1;
+															aux=aux->next;
+														}
+														if(b==0)
+															  aux->next=copia;
+													}
+												}
+tData interseccion(tData A,tData B){
+												tData C,aux;
+												int p,b;
+												C=NULL;
+												while(A!=NULL){
+													aux=B;
+													b=0;
+													while (aux!=NULL && b==0){
+														p=comparacad(A->data->Str,aux->data->Str);
+														if(p==0){
+															agrega(&C,aux);
+															b=1;}
+														aux=aux->next;
+													}
+													A=A->next;
+												}
+												return C;
+											}
 /*
 	if(*cab==NULL){
 	*cab=creaNodoSet();
