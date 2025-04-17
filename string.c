@@ -177,3 +177,30 @@ int compareStrChar(char carac, char token){
 		// Ambas cadenas deben terminar al mismo tiempo
 		return (a == NULL && b == NULL);
 	}
+int inArbol(tData lista,str cad){
+	tData aux; aux=NULL;
+	int t,b;
+	b=-1;
+	while(lista!=NULL && b==-1){
+		aux=lista->data;
+		t= pertenece(aux->Str,cad);
+		if(t==0)
+			b=0;
+		lista=lista->next;
+	}
+	if(b==0)
+	  return 0;
+	else 
+	return -1;
+}
+void eliminaConjunto(tData*lista){
+	tData aux,tempo; aux=NULL; tempo=NULL;
+	aux=*lista;
+	while(aux!=NULL){
+		tempo=aux;
+		aux=aux->next;
+		free(tempo);
+	}
+	*lista=NULL;
+}
+											}
