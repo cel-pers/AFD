@@ -82,7 +82,7 @@ tData crearNodoSet(tData data)//capaz es mejor sacar el parámetro next
 	tData nuevo=(tData)malloc(sizeof(TArbol));
 	nuevo->nodeType = SET;
 	nuevo->data=data; //o asigno =dato
-	nuevo->next=next; // = sig;
+	nuevo->next=NULL; // = sig;
 	return nuevo;
 }
 
