@@ -77,7 +77,7 @@ tData crearNodoLista(tData contenido){
 	return nuevo;
 }	
 	
-tData crearNodoSet(tData data, tData next)//capaz es mejor sacar el parámetro next
+tData crearNodoSet(tData data)//capaz es mejor sacar el parámetro next
 {
 	tData nuevo=(tData)malloc(sizeof(TArbol));
 	nuevo->nodeType = SET;
