@@ -203,4 +203,21 @@ void eliminaConjunto(tData*lista){
 	}
 	*lista=NULL;
 }
-											
+int pertenece(str cab,str cad){
+	int b;
+	b=0;
+	while((cab!=NULL && cad!=NULL) && b==0){
+		if(cab->dato==cad->dato){
+			cab=cab->sig;
+			cad=cad->sig
+	}
+	else b=1;
+	}
+	if(b==1)
+		return -1;
+	else
+		if(cab==NULL && cad==NULL)
+		return 0;
+	else return-1;
+}
+										
