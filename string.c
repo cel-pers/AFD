@@ -203,4 +203,4 @@ void eliminaConjunto(tData*lista){
 	}
 	*lista=NULL;
 }
-											}
+											
