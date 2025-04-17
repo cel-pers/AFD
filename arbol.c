@@ -7,6 +7,59 @@
 	conjunto {a,b,c,d} no importa el orden
 */
 
+
+int cardinalidad (tData arb){//supongo que tiene sentido para conjuntos
+	int c=0; //para el contador
+	tData aux=NULL;
+	if(arb != NULL && arb->nodetype==2){//si el padre existe, entonces hay algo para contar //no usamos indiferencia porque solo tenemos punteros a la estructura tArbol
+		aux=arb;
+		while (aux != NULL ){
+			c++;
+			aux=aux->next;
+		}
+	}else{
+		printf("El conjunto no tiene ningun elemento o no se ha mandado a analizar un conjunto.");
+		c=-1;
+	}
+	return c;
+}
+
+	
+	
+int inclusion (tData A, tData B){//Para la inclusion vamos a usar la cardinalidad
+	
+	// verificamos si A y B son conjuntos válidos
+	if (A == NULL || A->nodetype != 2 || B == NULL || B->nodetype != 2) {
+		printf("No se pudo realizar la operación, uno o ambos nodos no son conjuntos válidos.\n");
+		return 0; // No se puede determinar inclusión
+	}
+	
+	
+	
+	//en el caso en el que A sea un conj vacío 
+	if(A->dato.data==NULL && A->next == NULL)
+		return 1;
+	
+	
+	//CASO CARDINALES
+	int cardA = cardinalidad(A);
+	int cardB = cardinalidad(B);
+	if(cardA>cardB){
+		return 0;//si la cardinalidad del primer conjunto es mas grande que la cardinalidad del conjunto B, entonces significa que no puede estar incluido en el conjunto B
+	}
+	//entonces vamos por el camino de analizar cada elemento
+	
+	tData aux=A;
+	while (aux != NULL && pertenece(retornaDato(aux),B)==1){// mientras no lleguemos al elem final de A y todos los elementos vayan perteneciendo al conjunto B
+		aux=aux->next;
+	}
+	//preguntamos por cual condición del ciclo salimos
+	if (aux == NULL) //salimos porque se termino de analizar todo el conjunto y todos los elementos estan incluidos, sino se hubiera cortado antes porque pertenece == 0
+		return 1;
+	else 
+		return 0;
+	
+}
 tData crearNodoStr(str elem){
 	tData nuevo;
 	nuevo=(tData)malloc(sizeof(TArbol));
@@ -219,4 +272,3 @@ void printList(tData lista){
 	}	
 	
 	*/
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
