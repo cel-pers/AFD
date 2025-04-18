@@ -10,7 +10,7 @@ typedef struct dataType{
 	int nodeType; //STR, SET, LIST
 	union {
 		str Str;
-		struct ptr{
+		struct {
 			struct dataType* data;
 			struct dataType* next;
 		};
