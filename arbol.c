@@ -8,6 +8,78 @@
 */
 
 
+
+tData crearNodoStr(str elem){
+	tData nuevo;
+	nuevo=(tData)malloc(sizeof(TArbol));
+	nuevo->nodeType= STR;//1- str
+	nuevo->Str=elem; /
+	return nuevo;
+}
+
+tData crearNodoLista(tData contenido){ 
+	
+	tData nuevo=(tData)malloc(sizeof(TArbol));
+	nuevo->nodeType = LIST;
+	nuevo->data=contenido; 
+	nuevo->next=NULL; 
+	return nuevo;
+}	
+	
+tData crearNodoSet(tData data)
+{
+	tData nuevo=(tData)malloc(sizeof(TArbol));
+	nuevo->nodeType = SET;
+	nuevo->data=data; //o asigno =dato
+	nuevo->next=NULL; // = sig;
+	return nuevo;
+}
+
+//FUNCIONES DE CONJUNTOS
+	
+tData cargaConjunto(){
+	
+	int op;
+	printf ("\n 1.Ingresar | 2.Finalizar  ");
+	scanf("%d", &op);
+	fflush(stdin); // borra el buffer
+	
+	if(op == 1){
+		printf("\nIngrese el elemento del conjunto: ");
+		str cad=load();
+		
+		/*if(pertenece(cad,cad)==0){//si no pertenece al conjunto
+			cab->data= crearNodoStr(load());
+		}*/
+		tData nuevoStr=crearNodoStr(cad); //primer elemento 
+		tData aux=cargaConjunto();	
+		
+		return crearNodoSet(nuevoStr,aux);
+	}else	
+		return NULL;	
+}
+
+
+void mostrarConjunto(tData conj){ //RECURSIVO
+	if(conj!=NULL){
+		
+		if( conj->data != NULL){
+			
+			if(conj->data->nodeType == STR){
+				print(conj->data->Str); //muestro cadena
+			}else{
+				printf("\nError");
+			}
+		}
+		if(conj->next != NULL){
+			printf(", ");
+		}else{
+			printf("}");
+		}
+		mostrarConjunto(conj->next);
+	}
+}
+
 int cardinalidad (tData arb){//supongo que tiene sentido para conjuntos
 	int c=0; //para el contador
 	tData aux=NULL;
@@ -60,121 +132,53 @@ int inclusion (tData A, tData B){//Para la inclusion vamos a usar la cardinalida
 		return 0;
 	
 }
-tData crearNodoStr(str elem){
-	tData nuevo;
-	nuevo=(tData)malloc(sizeof(TArbol));
-	nuevo->nodeType= STR;//1- str
-	nuevo->Str=elem; /
-	return nuevo;
-}
-
-tData crearNodoLista(tData contenido){ 
-	
-	tData nuevo=(tData)malloc(sizeof(TArbol));
-	nuevo->nodeType = LIST;
-	nuevo->data=contenido; 
-	nuevo->next=NULL; 
-	return nuevo;
-}	
-	
-tData crearNodoSet(tData data)//capaz es mejor sacar el parámetro next
-{
-	tData nuevo=(tData)malloc(sizeof(TArbol));
-	nuevo->nodeType = SET;
-	nuevo->data=data; //o asigno =dato
-	nuevo->next=NULL; // = sig;
-	return nuevo;
-}
-
-	//cargaConjunto("{q0,[q1,q3],q5}")
-	
-tData cargaConjunto(){
-	
-	int op;
-	printf ("\n 1.Ingresar | 2.Finalizar  ");
-	scanf("%d", &op);
-	fflush(stdin); // borra el buffer
-	
-	if(op == 1){
-		printf("\nIngrese el elemento del conjunto: ");
-		str cad=load();
-		
-		/*if(pertenece(cad,cad)==0){//si no pertenece al conjunto
-			cab->data= crearNodoStr(load());
-		}*/
-		tData nuevoStr=crearNodoStr(cad); //primer elemento 
-		tData aux=cargaConjunto();	
-		
-		return crearNodoSet(nuevoStr,aux);
-	}else	
-		return NULL;	
-}
-void mostrarConjunto(tData conj){
-	if(conj!=NULL){
-		
-		if( conj->data != NULL){
-			
-			if(conj->data->nodeType == STR){
-				print(conj->data->Str); //muestro cadena
-			}else{
-				printf("\nError");
-			}
-		}
-		if(conj->next != NULL){
-			printf(", ");
-		}else{
-			printf("}");
-		}
-		mostrarConjunto(conj->next);
+void eliminaConjunto(tData*lista){
+	tData aux,tempo; aux=NULL; tempo=NULL;
+	aux=*lista;
+	while(aux!=NULL){
+		tempo=aux;
+		aux=aux->next;
+		free(tempo);
 	}
+	*lista=NULL;
 }
 
-
-//liberacion de memoria
-void liberarArbol(tData arbol){
-	switch(arbol->nodeType){
-	case STR:
-		liberarLista(arbol->Str);
-		break;
-	case SET:
-		liberarArbol(arbol->data);
-		liberarArbol(arbol->next);
-		break;
+//sofimicol
+int inArbol(tData lista,str cad){
+	tData aux; aux=NULL;
+	int t,b;
+	b=-1;
+	while(lista!=NULL && b==-1){
+		aux=lista->data;
+		t= pertenece(aux->Str,cad);
+		if(t==0)
+			b=0;
+		lista=lista->next;
 	}
+	if(b==0)
+	  return 0;
+	else 
+	return -1;
 }
-/*	
-A={uno,dos,tres}	
-B={dos,cuatro,cinco}
-U={uno,dos,tres, cuatro, cinco}
-	*/
 
-	//no funciona(funcion de cele)
-	tData copiaConjunto(tData org){
-		
-		tData conjRte=NULL;
-		tData aux=NULL;
-		while(org->next!=NULL){
-			if(conjRte==NULL){
-				conjRte=crearNodoSet(org->dato,aux);
-				aux=conjRte;
-			}else{
-				aux->next=crearNodoSet(org->dato,NULL);
-				aux=aux->next;
-			}
+tData interseccion(tData A,tData B){
+	tData C=NULL ,aux=NULL;
+	int p,b;
+	while(A!=NULL){
+		aux=B;	
+		b=0;
+		while (aux!=NULL && b==0){
+			p=comparacad(A->data->Str,aux->data->Str);
+			if(p==0){
+				agrega(&C,aux);
+				b=1;}
+			aux=aux->next;
 		}
-		tData conjRte;
-	}	
-//no funciona(funcion de cele)
-tData unionSet(tData A, tData B){
-	/*Suponiendo funcio pertenece(tData,tData)=0 si no pertenece*/
-	tData auxA=A;
-	tData auxB=B;
-	tData U=NULL;
-	tData auxU= NULL;
-	
-	U=copiaConjunto(A);
-	return U;
+		A=A->next;
+	}
+	return C;
 }
+
 	
 //FUNCIONES DE LISTA (PROFE )	
 	
@@ -206,72 +210,39 @@ void printList(tData lista){
 	}
 	printf(" ]");
 }
-//sofimicol
-int inArbol(tData lista,str cad){
-	tData aux; aux=NULL;
-	int t,b;
-	b=-1;
-	while(lista!=NULL && b==-1){
-		aux=lista->data;
-		t= pertenece(aux->Str,cad);
-		if(t==0)
-			b=0;
-		lista=lista->next;
+
+//funciones comunes
+//liberacion de memoria
+void liberarArbol(tData arbol){
+	switch(arbol->nodeType){
+	case STR:
+		liberarLista(arbol->Str);
+		break;
+	case SET:
+		liberarArbol(arbol->data);
+		liberarArbol(arbol->next);
+		break;
 	}
-	if(b==0)
-	  return 0;
-	else 
-	return -1;
 }
-void eliminaConjunto(tData*lista){
-	tData aux,tempo; aux=NULL; tempo=NULL;
-	aux=*lista;
-	while(aux!=NULL){
-		tempo=aux;
-		aux=aux->next;
-		free(tempo);
-	}
-	*lista=NULL;
-}
+
 //sofimicol
-	void agrega(tData*cab,tData cad){
-													int p,b;
-													tData aux; b=0;
-													tData copia = crearNodoSet(crearNodoStr(cad->data->Str), NULL);
-													if(*cab==NULL){
-														*cab=copia;
-													}
-													else {
-														aux=*cab;
-														while(aux->next!=NULL && b==0){
-															/*while(aux->sig!=NULL && b==0){*/
-															p=inArbol(aux,cad->data->Str);
-															if(p==-1)
-																b=1;
-															aux=aux->next;
-														}
-														if(b==0)
-															  aux->next=copia;
-													}
-												}
-tData interseccion(tData A,tData B){
-												tData C,aux;
-												int p,b;
-												C=NULL;
-												while(A!=NULL){
-													aux=B;
-													b=0;
-													while (aux!=NULL && b==0){
-														p=comparacad(A->data->Str,aux->data->Str);
-														if(p==0){
-															agrega(&C,aux);
-															b=1;}
-														aux=aux->next;
-													}
-													A=A->next;
-												}
-												return C;
-											}
+void agrega(tData*cab,tData cad){
+	int p,b=0;
+	tData aux==null; 
+	tData copia = crearNodoSet(crearNodoStr(cad->data->Str));
+	if(*cab==NULL){
+		*cab=copia;
+	}else {
+		aux=*cab;
+		while(aux->next!=NULL && b==0){
+		/*while(aux->sig!=NULL && b==0){*/
+			p=inArbol(aux,cad->data->Str);
+			if(p==-1){
+				b=1;
+				aux=aux->next;
+			}
+			if(b==0)  aux->next=copia;
+		}
 /*
 	if(*cab==NULL){
 	*cab=creaNodoSet();
