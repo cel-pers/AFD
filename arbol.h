@@ -33,7 +33,7 @@ void mostrarConjunto(tData);
 void printList(tData);
 int inArbol(tData,str);
 tData unionSet(tData, tData);
-int pertenece (str, tData); //deberia ir aqui o es privada?
+
 tData unionSet (tData A, tData B);
 tData interseccion (tData A, tData B);
 tData diferencia (tData A, tData B); 
