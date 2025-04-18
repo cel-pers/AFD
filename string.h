@@ -20,6 +20,6 @@ str cargaNodo(char);
 int pertenece(str cab,str cad);
 int compare2str(str,str);
 int compareStrChar(char,char);
-
+int comparacad(str ,str );
 int sonIguales(str,str);
 #endif
