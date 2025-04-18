@@ -122,7 +122,7 @@ int inclusion (tData A, tData B){//Para la inclusion vamos a usar la cardinalida
 	//entonces vamos por el camino de analizar cada elemento
 	
 	tData aux=A;
-	while (aux != NULL && pertenece(retornaDato(aux),B)==1){// mientras no lleguemos al elem final de A y todos los elementos vayan perteneciendo al conjunto B
+	while (aux != NULL && inArbol(B,retornaDato(aux))==1){// mientras no lleguemos al elem final de A y todos los elementos vayan perteneciendo al conjunto B
 		aux=aux->next;
 	}
 	//preguntamos por cual condición del ciclo salimos
