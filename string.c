@@ -184,7 +184,7 @@ int pertenece(str cab,str cad){
 	while((cab!=NULL && cad!=NULL) && b==0){
 		if(cab->dato==cad->dato){
 			cab=cab->sig;
-			cad=cad->sig
+			cad=cad->sig;
 	}
 	else b=1;
 	}
