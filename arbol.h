@@ -34,15 +34,15 @@ void printList(tData);
 int inArbol(tData,str);
 tData unionSet(tData, tData);
 
-tData unionSet (tData A, tData B);
-tData interseccion (tData A, tData B);
-tData diferencia (tData A, tData B); 
+tData unionSet (tData, tData);
+tData interseccion (tData, tData);
+tData diferencia (tData, tData); 
 int cardinalidad (tData);
-int inclusion (tData A, tData B);
+int inclusion (tData, tData);
 void eliminaConjunto(tData*);
 void liberarArbol(tData);
 void agrega(tData*,tData);
-tData push (tData lista, tData nuevoNodo);
+tData push (tData, tData);
 
 /* 
 1- Inicializar una lista
