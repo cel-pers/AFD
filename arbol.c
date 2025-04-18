@@ -36,8 +36,69 @@ tData crearNodoSet(tData data)
 }
 
 //FUNCIONES DE CONJUNTOS
+	void agrega(tData *cab,tData cad){ //copiada de sofimicol y modificada
+		int p,b=0;
+		tData aux=NULL; 
+		tData nuevo = crearNodoSet(cad);
+		
+		if(*cab!=NULL){
+			aux=*cab;
+			
+			while(aux->next!=NULL && b==0){
+				
+				p=inArbol(aux,cad->Str);
+				
+				if(p==-1){
+					b=1;
+					aux=aux->next;
+				}
+				if(b==0)  aux->next=nuevo;
+			}
+		}else{
+			*cab=nuevo;
+		}
+	}	
 	
-tData cargaConjunto(){
+//CARGA CONJUNTO ITERATIVO
+tData cargaConjunto() {
+	
+	str cad=NULL;
+	tData cab = NULL; 
+	tData nvaCad = NULL;
+	int op;
+	
+	do{
+		
+		printf("\n Ingrese 1. Agregar elem || 2. Finalizar carga:  ");
+		scanf("%d", &op);
+		
+		switch (op){
+		case 1: 
+			fflush(stdin);
+			printf("\n Ingrese el elemento: ");
+			nvaCad = crearNodoStr(load());
+			/*if (inArbol(cab,cad)==0){
+				printf("\n El elemento ya se encuentra en el conjunto");
+				liberarLista(cad);
+				break;
+			}controla repetidos*/
+			
+			nvaCad = crearNodoStr(cad);
+			agrega(&cab,nvaCad);
+			break; 
+			
+		case 2:
+			printf("\n Conjunto cargado ");
+			break;
+		default: 
+			printf("\n La opcion ingresada es incorrecta");
+		}
+	} while(op != 2);
+	return cab;
+
+	
+/*tData cargaConjunto(){
+}
 	
 	int op;
 	printf ("\n 1.Ingresar | 2.Finalizar  ");
@@ -50,14 +111,14 @@ tData cargaConjunto(){
 		
 		/*if(pertenece(cad,cad)==0){//si no pertenece al conjunto
 			cab->data= crearNodoStr(load());
-		}*/
+		}
 		tData nuevoStr=crearNodoStr(cad); //primer elemento 
 		tData aux=cargaConjunto();	
 		
 		return crearNodoSet(nuevoStr,aux);
 	}else	
 		return NULL;	
-}
+}*/
 
 
 void mostrarConjunto(tData conj){ //RECURSIVO
