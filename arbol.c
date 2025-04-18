@@ -5,6 +5,11 @@
 
 /*  lista [a,b,c,f] importa el orden
 	conjunto {a,b,c,d} no importa el orden
+
+
+ NOTAS IMPORTANTES: NO FUNCIONA EL CARGA CONJUNTO POR LO QUE NO PODEMOS VERIFICAR OTRAS FUNCIONES
+		LA IDEA ES UNA FUNCION QUE AGREGUE POR COLA Y CONTROLE REPETIDOS. 
+ 
 */
 
 
