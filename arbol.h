@@ -17,17 +17,32 @@ typedef struct dataType{
 	};
 	
 }TArbol;
-
 typedef TArbol* tData;
 
-tData crearNodoSet();
+
+typedef TArbol* tData;
+tData crearNodoStr(str);
+tData crearNodoSet(tData);
+tData crearNodoLista(tData);
 tData cargaConjunto();
+
+/*faltaba agregar*/
+tData cargaConjuntoHardcodeado (const char*);
+
 void mostrarConjunto(tData);
-int inArbol(tData lista,str cad);
+void printList(tData);
+int inArbol(tData,str);
 tData unionSet(tData, tData);
+int pertenece (str, tData); //deberia ir aqui o es privada?
+tData unionSet (tData A, tData B);
+tData interseccion (tData A, tData B);
+tData diferencia (tData A, tData B); 
+int cardinalidad (tData);
+int inclusion (tData A, tData B);
 void eliminaConjunto(tData*);
 void liberarArbol(tData);
-
+void agrega(tData*,tData);
+tData push (tData lista, tData nuevoNodo);
 
 /* 
 1- Inicializar una lista
