@@ -19,7 +19,7 @@ void liberarLista(str); //agregada por mi
 str cargaNodo(char);
 int pertenece(str cab,str cad);
 int compare2str(str,str);
-int compareStrChar(char,char);
+int compareStrChar(str,char);
 int comparacad(str ,str );
 int sonIguales(str,str);
 #endif
