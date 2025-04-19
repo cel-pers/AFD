@@ -3,32 +3,26 @@
 #include <stdlib.h>
 
 int main(void){
-	str ptr;
-	int p;
-	tData A=NULL;
-	tData B=NULL;
-	printf("\nA continuacion, se creará un conjunto A: ");
-	
-	A=cargaConjunto();
-	
-	printf("\nConjunto ingresado: \n{");
-	mostrarConjunto(A);
-	
-	printf("\nA continuacion, se creará un conjunto B: ");
-	
-	B=cargaConjunto();
-	
-	printf("\nConjunto ingresado: \n{");
-	mostrarConjunto(B);
-	
-	printf("\nUnion de conjuntos: ");
-	//mostrarConjunto(unionSet(A,B));
-	printf("\nIngrese elemento a buscar: ");
-	ptr=load();
-	p=inArbol(A,ptr);
-	if(p==0)printf("\nEl elemento pertenece al conjunto");
-	else printf("\nEl elemento no pertenece al conjunto");
-	
-	eliminaConjunto(&A);
+	int op;
+	str cad1=load2("1,2,3,4");
+	printf("Bienvenido al programa: Empezaremos con conjuntos");
+	printf("\n Conjunto A: ");
+	tData A = cargaConjuntoHarcodeado(cad1);
+	printf("\nSi desea agregar un conjunto B presione 0, de lo contrario se cargara uno predeterminado");
+	scanf("%d",&op);
+	if(op==0){
+		tData B=cargaConjunto();
+	}else{
+		str cad2=load2("3,4,5,6");
+		printf("\n Conjunto B: ");
+		tData B = cargaConjuntoHarcodeado(cad2);
+	}	
+	printf("\nOperaciones entre conjuntoas");
+	printf("\nCardinalidad de A: %d", cardinalidad(A));
+	printf("\nCardinalidad de B: %d", cardinalidad(B));
+
+	printf("\nUnion de y B: ");
+	tData U=unionSet(A,B);
+	mostrarConjunto(U);
 	
 }
