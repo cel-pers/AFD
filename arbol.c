@@ -177,7 +177,7 @@ tData unionSet(tData A, tData B){
 
 
 
-int cardinalidad (tData arb){//supongo que tiene sentido para conjuntos
+int cardinalidad (tData arb){
 	int c=0; //para el contador
 	tData aux=NULL;
 	if(arb != NULL && arb->nodetype==2){//si el padre existe, entonces hay algo para contar //no usamos indiferencia porque solo tenemos punteros a la estructura tArbol
@@ -261,7 +261,7 @@ void eliminaConjunto(tData*lista){
 //sofimicol
 //NO FUNCIONA
 tData interseccion(tData A,tData B){
-	tData C=NULL ,aux=NULL;
+	tData C=NULL, aux=NULL;
 	int p,b;
 	while(A!=NULL){
 		aux=B;	
@@ -279,7 +279,7 @@ tData interseccion(tData A,tData B){
 }
 
 	
-//FUNCIONES DE LISTA (PROFE )	
+//FUNCIONES DE LISTA 	
 	
 //AGREGA UN NODO AL FINAL DE LA LISTA
 tData push (tdata lista, tData nuevoNodo){
@@ -335,7 +335,7 @@ void agrega(tData*cab,tData cad){
 		aux=*cab;
 		while(aux->next!=NULL && b==0){
 		/*while(aux->sig!=NULL && b==0){*/
-			p=inArbol(aux,cad->data->Str);
+			p=inSet(aux,cad->data->Str);
 			if(p==-1){
 				b=1;
 				aux=aux->next;
