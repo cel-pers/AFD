@@ -1,19 +1,8 @@
 #include "arbol.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "string.h"
 
-/*  lista [a,b,c,f] importa el orden
-	conjunto {a,b,c,d} no importa el orden
-
-
- NOTAS IMPORTANTES: NO FUNCIONA EL CARGA CONJUNTO POR LO QUE NO PODEMOS VERIFICAR OTRAS FUNCIONES
-		LA IDEA ES UNA FUNCION QUE AGREGUE POR COLA Y CONTROLE REPETIDOS. 
- 
-*/
-
-
-
+//creaNodos
 tData crearNodoStr(str elem){
 	tData nuevo;
 	nuevo=(tData)malloc(sizeof(TArbol));
@@ -39,91 +28,18 @@ tData crearNodoSet(tData data)
 	nuevo->next=NULL; // = sig;
 	return nuevo;
 }
+tData creaSetVacio(){
+return NULL;
+}
+tData creaListVacio(){
+return NULL;
+}
 
 //FUNCIONES DE CONJUNTOS
-	void agrega(tData *cab,tData cad){ //copiada de sofimicol y modificada
-		int p,b=0;
-		tData aux=NULL; 
-		tData nuevo = crearNodoSet(cad);
-		
-		if(*cab!=NULL){
-			aux=*cab;
-			
-			while(aux->next!=NULL && b==0){
-				
-				p=inArbol(aux,cad->Str);
-				
-				if(p==-1){
-					b=1;
-					aux=aux->next;
-				}
-				if(b==0)  aux->next=nuevo;
-			}
-		}else{
-			*cab=nuevo;
-		}
-	}	
-	
-//CARGA CONJUNTO ITERATIVO
-tData cargaConjunto() {
-	
-	str cad=NULL;
-	tData cab = NULL; 
-	tData nvaCad = NULL;
-	int op;
-	
-	do{
-		
-		printf("\n Ingrese 1. Agregar elem || 2. Finalizar carga:  ");
-		scanf("%d", &op);
-		
-		switch (op){
-		case 1: 
-			fflush(stdin);
-			printf("\n Ingrese el elemento: ");
-			nvaCad = crearNodoStr(load());
-			/*if (inArbol(cab,cad)==0){
-				printf("\n El elemento ya se encuentra en el conjunto");
-				liberarLista(cad);
-				break;
-			}controla repetidos*/
-			
-			nvaCad = crearNodoStr(cad);
-			agrega(&cab,nvaCad);
-			break; 
-			
-		case 2:
-			printf("\n Conjunto cargado ");
-			break;
-		default: 
-			printf("\n La opcion ingresada es incorrecta");
-		}
-	} while(op != 2);
-	return cab;
+
+   //CARGA CONJUNTO ITERATIVO
 
 	
-/*tData cargaConjunto(){
-}
-	
-	int op;
-	printf ("\n 1.Ingresar | 2.Finalizar  ");
-	scanf("%d", &op);
-	fflush(stdin); // borra el buffer
-	
-	if(op == 1){
-		printf("\nIngrese el elemento del conjunto: ");
-		str cad=load();
-		
-		/*if(pertenece(cad,cad)==0){//si no pertenece al conjunto
-			cab->data= crearNodoStr(load());
-		}
-		tData nuevoStr=crearNodoStr(cad); //primer elemento 
-		tData aux=cargaConjunto();	
-		
-		return crearNodoSet(nuevoStr,aux);
-	}else	
-		return NULL;	
-}*/
 
 
 void mostrarConjunto(tData conj){ //RECURSIVO
@@ -143,8 +59,123 @@ void mostrarConjunto(tData conj){ //RECURSIVO
 			printf("}");
 		}
 		mostrarConjunto(conj->next);
-	}
+	}else printf("}");
 }
+//FUNCIONES PROBADAS
+void appendSet (tData ini,tData elem ){
+    /VARIABLES/
+    tData aux= NULL;
+
+    //if ((ini)->nodeType == SET && elem->nodeType == STR){  //Verificamos que los argumentos pasados sean correctos
+
+        if (ini != NULL){//Ya tenemos elementos y hay que enganchar al final
+            if (inSet(ini, elem->Str) != 0 ){ 
+                // no pertenece segun la funcion de la sofi :/
+                aux = *ini;
+
+                while (aux->next != NULL){//recorrer el conjunto
+                    aux = aux->next;
+                }
+                aux->next= crearNodoSet(elem); //enganchamos el elemento al final
+            }else {
+                printf("\n ERROR. el elemento ya esta en el conjunto");
+            }
+
+        }else{
+            *ini=crearNodoSet(elem);
+        }
+    
+
+}
+
+tData cargaConjunto(){
+    /DECLARACION E INICIALIZACION DE VARIABLES/
+    int op;
+
+    tData elem,conj;
+    elem=NULL; //para el nodo str
+    conj=NULL; //para el conjunto
+
+    str cad;
+    cad=NULL;
+
+    /PRUEBA/
+    printf("\n 1. INGRESAR  2. SALIR");
+    printf("\n opcion ingresada: ");
+    scanf("%d", &op);
+
+    while (op==1){
+        fflush(stdin);
+        cad=load();
+        elem=crearNodoStr(cad);
+        appendSet (&conj, elem);
+
+        printf("\n 1. INGRESAR  2. SALIR");
+        printf("\n opcion ingresada: ");
+        scanf("%d", &op);
+    }
+    printf("\n Conjunto resultante: {");
+
+    mostrarConjunto(conj);
+
+    return conj ;
+}
+
+/*	 privadas	*/
+tData copiaNodoStr(tData org){ //devuelve un nodo tData STR
+	tData copia = NULL;
+	if(org->nodeType == STR){
+		copia=crearNodoStr(org->Str);
+		return copia;
+	}else return NULL;
+}
+tData copiaNodoSet(tData org){ //me devuelve un nodo del tipo SET
+	tData copia=NULL;
+	tData elem=NULL;
+	
+	if(org->nodeType==SET){ //leo nodos del tipo SET
+		elem=copiaNodoStr(org->data); //le paso el nodo dato que deberia ser str(me lo verifica la funcion copiaNodoStr)
+		copia=crearNodoSet(elem);
+		return copia;
+		
+	}else return NULL;
+}	
+/*Publica*/
+//FALTA MODIFICAR EN CASO DE QUE A=NULL O B=NULL
+tData unionSet(tData A, tData B){
+	
+	tData U=NULL;
+	tData aux=NULL;
+	if(A==NULL && B==NULL) return NULL;
+	if(A==NULL){
+		
+	}
+	if(A->nodeType == SET && B->nodeType == SET){
+		while(A!=NULL){
+			if(U==NULL){ //conjunto vacio
+				U = copiaNodoSet(A);
+				aux=U;
+				A=A->next;
+			}else{
+				aux->next=copiaNodoSet(A);
+				aux=aux->next;
+				A=A->next;
+			}
+		}
+		while(B != NULL){
+			if(inSet(U,B->data->Str)== -1)//va a funcionar si el dato del set es str. si no esta en la union entonces lo copio
+			{
+				aux->next=copiaNodoSet(B);
+				aux=aux->next;
+			}
+			B=B->next;
+		}
+	}
+	return U;
+}
+
+
+
 
 int cardinalidad (tData arb){//supongo que tiene sentido para conjuntos
 	int c=0; //para el contador
@@ -156,13 +187,31 @@ int cardinalidad (tData arb){//supongo que tiene sentido para conjuntos
 			aux=aux->next;
 		}
 	}else{
-		printf("El conjunto no tiene ningun elemento o no se ha mandado a analizar un conjunto.");
-		c=-1;
+		printf("El conjunto no tiene ningun elemento ");
+		c=0;
 	}
 	return c;
 }
 
-	
+int inSet(tData lista,str cad){
+	tData aux; aux=NULL;
+	int t,b;
+	b=-1;
+	while(lista!=NULL && b==-1){
+		aux=lista->data;
+		t= pertenece(aux->Str,cad);
+		if(t==0)
+			b=0;
+		lista=lista->next;
+	}
+	if(b==0)
+	  return 0;
+	else 
+	return -1;
+}
+
+
+//PROBAR DE ACA PARA ABAJO
 	
 int inclusion (tData A, tData B){//Para la inclusion vamos a usar la cardinalidad
 	
@@ -210,23 +259,7 @@ void eliminaConjunto(tData*lista){
 }
 
 //sofimicol
-int inArbol(tData lista,str cad){
-	tData aux; aux=NULL;
-	int t,b;
-	b=-1;
-	while(lista!=NULL && b==-1){
-		aux=lista->data;
-		t= pertenece(aux->Str,cad);
-		if(t==0)
-			b=0;
-		lista=lista->next;
-	}
-	if(b==0)
-	  return 0;
-	else 
-	return -1;
-}
-
+//NO FUNCIONA
 tData interseccion(tData A,tData B){
 	tData C=NULL ,aux=NULL;
 	int p,b;
@@ -310,67 +343,5 @@ void agrega(tData*cab,tData cad){
 			if(b==0)  aux->next=copia;
 		}
 /*
-	if(*cab==NULL){
-	*cab=creaNodoSet();
-	tData aux=*cab;
-	cargaConjunto(&aux,cad);
-	cargaConjunto(&aux->next,cad);
-	}else{
-	switch(*cad->dato){
-	case ']': *cad=*cad->sig;
-	case'}': *cad=*cad->sig;
-	case '{':
-	
-	break;
-	case '[': *cad=*cad->sig;
-	*cab->dato=crearNodoLista();
-	
-	break;
-	
-	
-	
-	default:
-	
-	*cab->Dato=crearNodoStr(beforeToken(*cad,','));
-	*cad=afterToken(*cad,',');
-	
-	break;
-	}
-	
-	//Recorrido recursivo
-	void recorrerArbol(tData arbol){
-	if(arbol==NULL){
-	printf("\nArbol vacio");
-	}
-	else{
-	switch(arbol->nodeType){
-	
-	case STR: 
-	//Procesa la cadena
-	print(arbol->Str);
-	break;
-	case SET:
-	//Procesa conjunto
-	printf("{");
-	recorrerArbol(arbol->data);
-	printf("}");
-	if(arbol->next != NULL){
-	printf(", ");
-	recorrerArbol(arbol->next);
-	}
-	break;
-	case LIST:
-	//procesa lista
-	printf("[");
-	recorrerArbol(arbol->data);
-	printf("]");
-	if(arbol->next != NULL){
-	printf(",");
-	recorrerArbol(arbol->next);
-	}
-	break;	
-	}	
-	}
-	}	
-	
+FALTA DIFERENCIA PERO NECESITAMOS QUE LA INTERSECCION FUNCIONE	
 	*/
