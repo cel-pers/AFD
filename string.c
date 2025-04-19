@@ -158,11 +158,11 @@ int compare2str(str A, str B){
 	
 }
 
-int compareStrChar(char carac, char token){
+int compareStrChar(str cad, char token){
 	
 	int rdo;
 	
-	if(carac==token){
+	if(cad->dato==token){
 		rdo=0;
 	}else rdo=1;
 	return rdo;
