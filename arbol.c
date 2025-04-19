@@ -37,11 +37,6 @@ return NULL;
 
 //FUNCIONES DE CONJUNTOS
 
-   //CARGA CONJUNTO ITERATIVO
-
-	
-
-
 void mostrarConjunto(tData conj){ //RECURSIVO
 	if(conj!=NULL){
 		
@@ -57,6 +52,7 @@ void mostrarConjunto(tData conj){ //RECURSIVO
 			printf(", ");
 		}else{
 			printf("}");
+			return;
 		}
 		mostrarConjunto(conj->next);
 	}else printf("}");
@@ -120,6 +116,40 @@ tData cargaConjunto(){
 
     return conj ;
 }
+tData cargaConjuntoHarcodeado(str cad){
+		
+		tData elem,conj;
+		elem=NULL; //para el nodo str
+		conj=NULL; //para el conjunto
+		
+		str ncad=NULL, vcad=NULL, aux=NULL;
+		char c=',';
+		//debo separar y cargar cada elemento en un nodo STR
+		aux=cad;
+		
+		while(aux!=NULL){
+			if(compareStrChar(aux,c)==0||aux->sig==NULL)//son iguales
+			{
+				if(conj==NULL){
+					ncad=beforeToken(cad,c);
+					vcad=afterToken(cad,c);
+					appendSet(&conj, crearNodoStr(ncad));
+				}else{
+					ncad=beforeToken(vcad,c);
+					appendSet(&conj, crearNodoStr(ncad));
+					vcad=afterToken(vcad,c);
+				}
+			}	
+			aux=aux->sig;
+		}
+		
+		
+		printf("\n Conjunto resultante: {");
+		
+		mostrarConjunto(conj);
+		
+		return conj ;
+	}
 
 /*	 privadas	*/
 tData copiaNodoStr(tData org){ //devuelve un nodo tData STR
@@ -141,14 +171,26 @@ tData copiaNodoSet(tData org){ //me devuelve un nodo del tipo SET
 	}else return NULL;
 }	
 /*Publica*/
-//FALTA MODIFICAR EN CASO DE QUE A=NULL O B=NULL
 tData unionSet(tData A, tData B){
 	
 	tData U=NULL;
 	tData aux=NULL;
-	if(A==NULL && B==NULL) return NULL;
+	//casos especiales
+	if(A==NULL && B==NULL) return NULL;	
 	if(A==NULL){
-		
+		while(B!=NULL){
+			appendSet(&U,copiaNodoStr(B->data));
+			B=B->next;
+		}
+		 return U;
+	}
+	if(B==NULL){
+		while(A!=NULL){
+			
+			appendSet(&U,copiaNodoStr(A->data));
+			A=A->next;
+		}
+		return U;
 	}
 	if(A->nodeType == SET && B->nodeType == SET){
 		while(A!=NULL){
@@ -209,44 +251,41 @@ int inSet(tData lista,str cad){
 	else 
 	return -1;
 }
-
-
-//PROBAR DE ACA PARA ABAJO
-	
-int inclusion (tData A, tData B){//Para la inclusion vamos a usar la cardinalidad
-	
-	// verificamos si A y B son conjuntos válidos
-	if (A == NULL || A->nodetype != 2 || B == NULL || B->nodetype != 2) {
-		printf("No se pudo realizar la operación, uno o ambos nodos no son conjuntos válidos.\n");
-		return 0; // No se puede determinar inclusión
+tData interseccion(tData A,tData B){
+	tData C=NULL, aux=NULL;
+	int p,b;
+	while(A!=NULL){
+		aux=B;	
+		b=0;
+		while (aux!=NULL && b==0){
+			p=comparacad(A->data->Str,aux->data->Str);
+			if(p==0){
+				agrega(&C,aux); //agrega "especial"
+				b=1;}
+			aux=aux->next;
+		}
+		A=A->next;
 	}
-	
-	
-	
-	//en el caso en el que A sea un conj vacío 
-	if(A->dato.data==NULL && A->next == NULL)
-		return 1;
-	
-	
-	//CASO CARDINALES
-	int cardA = cardinalidad(A);
-	int cardB = cardinalidad(B);
-	if(cardA>cardB){
-		return 0;//si la cardinalidad del primer conjunto es mas grande que la cardinalidad del conjunto B, entonces significa que no puede estar incluido en el conjunto B
-	}
-	//entonces vamos por el camino de analizar cada elemento
-	
-	tData aux=A;
-	while (aux != NULL && inArbol(B,retornaDato(aux))==1){// mientras no lleguemos al elem final de A y todos los elementos vayan perteneciendo al conjunto B
-		aux=aux->next;
-	}
-	//preguntamos por cual condición del ciclo salimos
-	if (aux == NULL) //salimos porque se termino de analizar todo el conjunto y todos los elementos estan incluidos, sino se hubiera cortado antes porque pertenece == 0
-		return 1;
-	else 
-		return 0;
-	
+	return C;
 }
+tData difereciaSet(tData A, tData B){
+	tData D=NULL;
+	tData I=interseccion(A,B);
+	//A menos la interseccion de los dos
+	while(A!=NULL){
+		if(inSet(I,A->data)==-1){ //si el elemento de A no está en la interseccion entonces lo copio a diferencia
+			
+			appendSet(&D,copiaNodoStr(A->data)); //copio dato y lo agrego al conjunto
+			
+		}
+		A=A->next;
+	}
+	return D;
+}	
+
+//INCLUSIONNNNN
+	
+
 void eliminaConjunto(tData*lista){
 	tData aux,tempo; aux=NULL; tempo=NULL;
 	aux=*lista;
@@ -258,25 +297,6 @@ void eliminaConjunto(tData*lista){
 	*lista=NULL;
 }
 
-//sofimicol
-//NO FUNCIONA
-tData interseccion(tData A,tData B){
-	tData C=NULL, aux=NULL;
-	int p,b;
-	while(A!=NULL){
-		aux=B;	
-		b=0;
-		while (aux!=NULL && b==0){
-			p=comparacad(A->data->Str,aux->data->Str);
-			if(p==0){
-				agrega(&C,aux);
-				b=1;}
-			aux=aux->next;
-		}
-		A=A->next;
-	}
-	return C;
-}
 
 	
 //FUNCIONES DE LISTA 	
@@ -342,6 +362,3 @@ void agrega(tData*cab,tData cad){
 			}
 			if(b==0)  aux->next=copia;
 		}
-/*
-FALTA DIFERENCIA PERO NECESITAMOS QUE LA INTERSECCION FUNCIONE	
-	*/
