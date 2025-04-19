@@ -219,21 +219,23 @@ tData unionSet(tData A, tData B){
 
 
 
-int cardinalidad (tData arb){
+
+int cardinalidad (tData arb){//supongo que tiene sentido para conjuntos
 	int c=0; //para el contador
 	tData aux=NULL;
-	if(arb != NULL && arb->nodetype==2){//si el padre existe, entonces hay algo para contar //no usamos indiferencia porque solo tenemos punteros a la estructura tArbol
+	if(arb != NULL && arb->nodeType==2){//si el padre existe, entonces hay algo para contar //no usamos indireccion porque solo tenemos punteros a la estructura tArbol
 		aux=arb;
 		while (aux != NULL ){
 			c++;
 			aux=aux->next;
 		}
 	}else{
-		printf("El conjunto no tiene ningun elemento ");
+		printf("\nEl conjunto es vacio");
 		c=0;
 	}
 	return c;
 }
+	
 
 int inSet(tData lista,str cad){
 	tData aux; aux=NULL;
@@ -284,7 +286,93 @@ tData difereciaSet(tData A, tData B){
 }	
 
 //INCLUSIONNNNN
+
 	
+int inclusion (tData A, tData B){//Para la inclusion vamos a usar la cardinalidad
+	
+	if(A==NULL && B==NULL){
+		return 1; //porque el vacio esta incluido en el conjunto vacio
+	}
+	
+	//en el caso en el que A sea un conj vacio 
+	if(A==NULL)
+	   return 1;
+	
+	// verificamos si A y B son conjuntos válidos
+	if (A->nodeType != 2 || B->nodeType != 2) {
+		printf("\nNo se pudo realizar la operación, uno o ambos nodos no son conjuntos validos.\n");
+		return 0; // No se puede determinar inclusion
+	}
+	
+	//caso en que ambos conjuntos sean vacio
+	
+	
+	
+	//CASO CARDINALES, incluye el caso en el que B es vacio
+	int cardA = cardinalidad(A);
+	int cardB = cardinalidad(B);
+	if(cardA>cardB){
+		return 0;//si la cardinalidad del primer conjunto es mas grande que la cardinalidad del conjunto B, entonces significa que no puede estar incluido en el conjunto B
+	}
+	
+	
+	//entonces vamos por el camino de analizar cada elemento
+	
+	tData aux=A;
+	while (aux != NULL && inSet(B,aux->data->Str)==0){// mientras no lleguemos al elem final de A y todos los elementos vayan perteneciendo al conjunto B
+		aux=aux->next;
+	}
+	//preguntamos por cual condición del ciclo salimos
+	if (aux == NULL) //salimos porque se termino de analizar todo el conjunto y todos los elementos estan incluidos, sino se hubiera cortado antes porque pertenece == 0
+		return 1;
+	else 
+		return 0;
+	
+}
+	
+	
+int inclusion (tData A, tData B){//Para la inclusion vamos a usar la cardinalidad
+	
+	if(A==NULL && B==NULL){
+		return 1; //porque el vacio esta incluido en el conjunto vacio
+	}
+	
+	//en el caso en el que A sea un conj vacio 
+	if(A==NULL)
+	   return 1;
+	
+	// verificamos si A y B son conjuntos válidos
+	if (A->nodeType != 2 || B->nodeType != 2) {
+		printf("\nNo se pudo realizar la operación, uno o ambos nodos no son conjuntos validos.\n");
+		return 0; // No se puede determinar inclusion
+	}
+	
+	//caso en que ambos conjuntos sean vacio
+	
+	
+	
+	//CASO CARDINALES, incluye el caso en el que B es vacio
+	int cardA = cardinalidad(A);
+	int cardB = cardinalidad(B);
+	if(cardA>cardB){
+		return 0;//si la cardinalidad del primer conjunto es mas grande que la cardinalidad del conjunto B, entonces significa que no puede estar incluido en el conjunto B
+	}
+	
+	
+	//entonces vamos por el camino de analizar cada elemento
+	
+	tData aux=A;
+	while (aux != NULL && inSet(B,aux->data->Str)==0){// mientras no lleguemos al elem final de A y todos los elementos vayan perteneciendo al conjunto B
+		aux=aux->next;
+	}
+	//preguntamos por cual condición del ciclo salimos
+	if (aux == NULL) //salimos porque se termino de analizar todo el conjunto y todos los elementos estan incluidos, sino se hubiera cortado antes porque pertenece == 0
+		return 1;
+	else 
+		return 0;
+	
+}
+		
 
 void eliminaConjunto(tData*lista){
 	tData aux,tempo; aux=NULL; tempo=NULL;
