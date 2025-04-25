@@ -253,23 +253,7 @@ int inSet(tData lista,str cad){
 	else 
 	return -1;
 }
-tData interseccion(tData A,tData B){
-	tData C=NULL, aux=NULL;
-	int p,b;
-	while(A!=NULL){
-		aux=B;	
-		b=0;
-		while (aux!=NULL && b==0){
-			p=comparacad(A->data->Str,aux->data->Str);
-			if(p==0){
-				agrega(&C,aux); //agrega "especial"
-				b=1;}
-			aux=aux->next;
-		}
-		A=A->next;
-	}
-	return C;
-}
+
 tData difereciaSet(tData A, tData B){
 	tData D=NULL;
 	tData I=interseccion(A,B);
@@ -433,20 +417,38 @@ void liberarArbol(tData arbol){
 }
 
 //sofimicol
-void agrega(tData*cab,tData cad){
-	int p,b=0;
-	tData aux==null; 
-	tData copia = crearNodoSet(crearNodoStr(cad->data->Str));
-	if(*cab==NULL){
-		*cab=copia;
-	}else {
-		aux=*cab;
-		while(aux->next!=NULL && b==0){
-		/*while(aux->sig!=NULL && b==0){*/
-			p=inSet(aux,cad->data->Str);
-			if(p==-1){
-				b=1;
+	void agrega(tData*cab,tData cad){
+		tData aux = NULL; int p;
+		if(*cab==NULL){
+			*cab=cad;
+		}else {
+			aux=*cab;
+			p=inSet((*cab),aux->data->Str);
+			if (p==0){
+			while(aux->next!=NULL)
+				aux=aux->next;
+			aux->next=cad;
+			}
+		}
+	}
+		
+		
+	 tData interseccion(tData A,tData B){
+		tData C=NULL ,aux=NULL;
+		int p,b;
+		while(A!=NULL){
+			aux=B;
+			b=0;
+			while (aux!=NULL && b==0){
+				p=comparacad(A->data->Str,aux->data->Str);
+				if(p==0){
+					b=1;
+				}
 				aux=aux->next;
 			}
-			if(b==0)  aux->next=copia;
+			if(b==1)
+				agrega(&C,crearNodoSet(A->data));
+			A=A->next;
 		}
+		return C;
+	}
