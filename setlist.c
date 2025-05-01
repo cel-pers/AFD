@@ -209,41 +209,7 @@ tData cargaConjuntoHardcodeado(str cad){
 	
 	return conj ;
 }
-	tData cargaListaHardcodeada(str cad){ 
-		
-		tData lista=NULL;
-		
-		str ncad=NULL, vcad=NULL, aux=NULL;
-		char c=',';
-		//debo separar y cargar cada elemento en un nodo STR
-		aux=cad;
-		
-		while(aux!=NULL){
-			if(compareStrChar(aux,c)==0||aux->sig==NULL)//son iguales
-			{
-				//PRIMER ELEMENTO
-				if(lista==NULL){
-					ncad=beforeToken(cad,c);
-					vcad=afterToken(cad,c);
-					lista=push(lista, crearNodoStr(ncad));
-				}
-				
-				else{
-					ncad=beforeToken(vcad,c);
-					lista=push(lista,crearNodoStr(ncad));
-					
-					vcad=afterToken(vcad,c);
-				}
-				
-			}
-			aux = aux->sig;
-		}
-		printf("\n lista resultante: ");
-		printList(lista);
-		
-		return lista ;
-	}
-
+	
 tData copiaNodoStr(tData org){ //devuelve un nodo tData STR
 	tData copia = NULL;
 	if(org->nodeType == STR){
@@ -251,9 +217,7 @@ tData copiaNodoStr(tData org){ //devuelve un nodo tData STR
 		return copia;
 	}else return NULL;
 }
-	
-	
-
+		
 tData copiaNodoSet(tData org){ //me devuelve un nodo del tipo SET
 	tData copia=NULL;
 	tData elem=NULL;
@@ -347,9 +311,9 @@ int inclusion (tData A, tData B){//Para la inclusion vamos a usar la cardinalida
 	if(A==NULL)
 	   return 1;
 	
-	// verificamos si A y B son conjuntos válidos
+	// verificamos si A y B son conjuntos vÃ¡lidos
 	if (A->nodeType != 2 || B->nodeType != 2) {
-		printf("\nNo se pudo realizar la operación, uno o ambos nodos no son conjuntos validos.\n");
+		printf("\nNo se pudo realizar la operaciÃ³n, uno o ambos nodos no son conjuntos validos.\n");
 		return 0; // No se puede determinar inclusion
 	}
 	
@@ -371,7 +335,7 @@ int inclusion (tData A, tData B){//Para la inclusion vamos a usar la cardinalida
 	while (aux != NULL && inSet(B,aux->data->Str)==0){// mientras no lleguemos al elem final de A y todos los elementos vayan perteneciendo al conjunto B
 		aux=aux->next;
 	}
-	//preguntamos por cual condición del ciclo salimos
+	//preguntamos por cual condiciÃ³n del ciclo salimos
 	if (aux == NULL) //salimos porque se termino de analizar todo el conjunto y todos los elementos estan incluidos, sino se hubiera cortado antes porque pertenece == 0
 		return 1;
 	else 
@@ -443,21 +407,60 @@ void agrega(tData*cab,tData cad){
 	//FUNCIONES DE LISTA 	
 	
 //AGREGA UN NODO AL FINAL DE LA LISTA
-tData push (tData lista, tData nuevoNodo){
-	if(lista!=NULL){
-		tData temp= lista;
-		while(temp->next){
-			temp=temp->next;
+void appendList (tData *ini,tData elem ){
+	/*VARIABLES*/
+	tData aux= NULL;
+	
+	
+	if (*ini != NULL){ 
+		aux = *ini;
+		while (aux->next != NULL){//recorrer el conjunto
+			aux = aux->next;
 		}
-		temp->next = nuevoNodo;
-		return lista;
+		aux->next= crearNodoLista(elem); 
+		
+	}else{
+		*ini=crearNodoLista(elem);
 	}
-	else {
-		return nuevoNodo;
-	}
+	
+	
 }
 
-	
+tData cargaListaHardcodeada(str cad){ 
+		
+		tData lista=NULL;
+		
+		str ncad=NULL, vcad=NULL, aux=NULL;
+		char c=',';
+		//debo separar y cargar cada elemento en un nodo STR
+		aux=cad;
+		
+		while(aux!=NULL){
+			if(compareStrChar(aux,c)==0||aux->sig==NULL)//son iguales
+			{
+				//PRIMER ELEMENTO
+				if(lista==NULL){
+					ncad=beforeToken(cad,c);
+					vcad=afterToken(cad,c);
+					lista=push(lista, crearNodoStr(ncad));
+				}
+				
+				else{
+					ncad=beforeToken(vcad,c);
+					lista=push(lista,crearNodoStr(ncad));
+					
+					vcad=afterToken(vcad,c);
+				}
+				
+			}
+			aux = aux->sig;
+		}
+		printf("\n lista resultante: ");
+		printList(lista);
+		
+		return lista ;
+	}
+
 //MUESTRA LA LISTA
 /*void printList(tData lista){
 	printf("[");
