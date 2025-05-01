@@ -77,10 +77,10 @@ tData crear_AF(str ingreso){
 			}else{
 				
 				ingreso=afterToken(ingreso,',');
-				print(ingreso);
+				//print(ingreso);
 				dato=beforeToken(ingreso,',');
-				printf("\ndato ");
-				print(dato);
+				//printf("\ndato "); ya sabemos que funciona
+				//print(dato);
 				ingreso=afterToken(ingreso,',');
 				elemento=crearNodoStr(dato);
 				temp->next=crearNodoLista(elemento);
@@ -96,4 +96,22 @@ tData crear_AF(str ingreso){
 	return inicio;
 }
 
-
+	
+void consultar_elemento(int op, tData AF){
+	int i=1;
+	if(op>0 && op <6){
+		while(op!=i){
+			AF=AF->next;
+			i++;
+		}
+		printf("\nElemento consultado: \n");
+		if(AF->data->nodeType == SET){
+			mostrarConjunto(AF->data);
+		}else {//str
+			print(AF->data);
+		}
+	}else{
+		printf("\n Opcion ingresada incorrecta ");
+	}
+	
+}	
