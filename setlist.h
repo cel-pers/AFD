@@ -47,28 +47,10 @@ int inSet(tData,str);
 
 
 // lista
-tData push (tData, tData);
+tData appendList (tData*, tData);
 void printList(tData);
-tData cargaListaHardcodeada();
-/* 
-1- Inicializar una lista
-2- Cargar una lista (todas)
-3- Mostrar una lista
-4- crear un conjunto vacio
-5- cargar un conjunto (considerar cargar por consola y ((todas))
-14- carga por cadena hardcodeada, considerar el
-conjunto vacio) (todas)
-6- mostrar un conjunto
-Implementar las operaciones de
-7- union 
-8- interseccion 
-9- diferencia 
-10- cardinalidad, 
-11- pertenece
-12- inclusion 
-13- eliminar conjunto.
+tData cargaListaHardcodeada(str cad);
 
-*/
 
 
 #endif
