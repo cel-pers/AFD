@@ -10,9 +10,9 @@
 tData crearNodoStr(str elem){
 	tData nuevo;
 	nuevo=(tData)malloc(sizeof(TArbol));
-	nuevo->nodeType= STR;//1- str
+	nuevo->nodeType= STR;
 	nuevo->Str=elem; 
-		return nuevo;
+	return nuevo;
 }
 	
 tData crearNodoLista(tData contenido){ 
@@ -27,8 +27,8 @@ tData crearNodoLista(tData contenido){
 tData crearNodoSet(tData data){
 	tData nuevo=(tData)malloc(sizeof(TArbol));
 	nuevo->nodeType = SET;
-	nuevo->data=data; //o asigno =dato
-	nuevo->next=NULL; // = sig;
+	nuevo->data=data; 
+	nuevo->next=NULL;
 	return nuevo;
 }
 		
